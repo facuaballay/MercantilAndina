@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatosPersonalesService } from 'src/app/services/DatosPersonales/datos-personales.service';
 
 @Component({
   selector: 'app-datos-personales',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DatosPersonalesComponent implements OnInit {
 
-  constructor() { }
+  constructor(datosPersonales:DatosPersonalesService) {
+
+    
+   }
 
   ngOnInit(): void {
   }

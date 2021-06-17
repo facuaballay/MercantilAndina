@@ -8,7 +8,7 @@ import { CoberturasService } from 'src/app/services/Coberturas/coberturas.servic
 })
 export class CoberturaDisponibleComponent implements OnInit {
 
-  constructor(coberturaService:CoberturasService) { 
+  constructor() { 
 
   }
 
