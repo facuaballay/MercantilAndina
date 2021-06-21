@@ -1,38 +1,52 @@
-<form>
-    <div class="mb-3">
+  <form class="row contact-wrap contenido" [formGroup]="formCar"  (ngSubmit)="enviarVehiculos()">
+
+
+  <h2 class="modal-header navestilo" >Datos Vehiculo</h2>
+
+    <div class="mb-3 px-4">
       <label for="Marcas" class="form-label">Marcas</label>
-      <select class="form-control">
-        <option selected>Marcas</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <select class="form-select form-select-lg" formControlName="marca" >
+        <option value="" selected disabled>Seleccionar Marca</option> 
+        <option *ngFor="let marca of marcas">{{marca.desc}}</option>
+       
       </select>
       
-    </div>
-    <div class="mb-3">
+    </div> 
+     <div class="mb-3 px-4">
       <label for="anio" class="form-label">Año</label>
-      <select class="form-control">
-        <option selected>Año</option>
-        <option value="1">One</option>
+      <select class="form-select form-select-lg" formControlName="anio">
+        <option value="" selected disabled>Seleccionar Año</option> 
+        <option *ngFor="let anio of anios" > {{anio}} </option>
       </select>
-    </div>
-    <div class="mb-3 ">
-     
-    <select class="form-control">
-        <option selected>Modelo</option>
+    </div> 
+    <div class="mb-3 px-4 "> 
+    <label for="Modelos" class="form-label">Modelos</label>
+    <select class="form-select form-select-lg" formControlName="modelo">
+      <option value="" selected disabled>Seleccionar Modelo</option> 
         <option value="1">One</option>
     </select>
+    </div> 
+     <div class="mb-3 px-4 ">
+      <label for="Modelos" class="form-label">Version</label>
+        <select class="form-select form-select-lg" formControlName="version">
+          <option value="" selected disabled>Seleccionar Version</option> 
 
-    </div>
 
-    <div class="mb-3 ">
-     
-        <select class="form-control">
-            <option selected>Versión</option>
             <option value="1">One</option>
         </select>
     
-     </div>
-    
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+     </div> 
+
+
+     
+     <div class="flechas"> 
+     
+     <button type="submit" (onsubmit)="goNext()" class="flecha derecha">
+         <i class="bi bi-arrow-right-circle-fill "></i>
+     </button> 
+     <button type="submit"  (click)="goBack()"class="flecha ">
+      <i class="bi bi-arrow-left-circle-fill "> </i>
+     </button> 
+    </div> 
+
+</form>

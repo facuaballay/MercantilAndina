@@ -3,21 +3,15 @@
 export interface Provincia {
     cantidad:   number;
     inicio:     number;
-    parametros: Parametros;
     provincias: ProvinciaElement[];
     total:      number;
 }
 
-export interface Parametros {
-}
+
 
 export interface ProvinciaElement {
-    centroide: Centroide;
+  
     id:        string;
     nombre:    string;
 }
 
-export interface Centroide {
-    lat: number;
-    lon: number;
-}

@@ -8,11 +8,27 @@ import { CoberturasService } from 'src/app/services/Coberturas/coberturas.servic
 })
 export class CoberturaDisponibleComponent implements OnInit {
 
-  constructor() { 
+  coberturas;
 
+  constructor(private coberturaService:CoberturasService) { 
+    this.getCobertura();
   }
 
   ngOnInit(): void {
+  }
+
+  getCobertura(){
+    this.coberturaService.getCoberturas().subscribe(res =>{
+      this.coberturas = res;
+      console.log(res,'cobertura');
+    })
+  }
+
+
+  
+
+  enviar(){
+    console.log('enviado');
   }
 
 }

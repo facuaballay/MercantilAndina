@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { DatosVehiculosService } from './services/DatosVehiculos/datos-vehiculos.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'MercantilAndina';
+
+
+  constructor(marcasService:DatosVehiculosService){
+
+   
+   
+  }
+
 }
