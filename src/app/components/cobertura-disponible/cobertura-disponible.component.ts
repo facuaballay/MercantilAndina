@@ -20,7 +20,12 @@ export class CoberturaDisponibleComponent implements OnInit {
   getCobertura(){
     this.coberturaService.getCoberturas().subscribe(res =>{
       this.coberturas = res;
-      console.log(res,'cobertura');
+      console.log(this.coberturas);
+
+      
+    this.guardarCobertura(this.coberturas);
+
+      
     })
   }
 
@@ -29,6 +34,10 @@ export class CoberturaDisponibleComponent implements OnInit {
 
   enviar(){
     console.log('enviado');
+  }
+
+  guardarCobertura(cobertura){
+    this.coberturaService.guardarStorageCobertura(cobertura);
   }
 
 }

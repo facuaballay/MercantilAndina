@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Version } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatosVehiculosService } from 'src/app/services/DatosVehiculos/datos-vehiculos.service';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Marcas } from 'src/app/interfaces/Marcas';
-import { config } from 'rxjs';
+import { Modelo } from 'src/app/interfaces/Modelo';
 
 
 @Component({
@@ -18,14 +18,15 @@ export class DatosVehiculosComponent implements OnInit {
   
   marcas;
   modelos;
-  versiones: [] = [];
+  versiones;
   anios: number[] = [];
 
 
   
 
   anioSeleccionado:number;
-  marcaSeleccionada:number[] = [];
+  marcaSeleccionada:Marcas;
+  modeloSeleccionado;
 
 
   constructor(
@@ -36,11 +37,15 @@ export class DatosVehiculosComponent implements OnInit {
 
       this.crearFormVehicles();
       this.cargarMarcas();
+      
+      //Desactivar input
       this.formCar.get('marca').disable();
       this.formCar.get('anio').disable();
-      
       this.formCar.get('modelo').disable();
       this.formCar.get('version').disable(); 
+
+     
+
      }
 
 
@@ -54,7 +59,10 @@ export class DatosVehiculosComponent implements OnInit {
     this.goNext();
 
   }
-
+/**
+ * 
+ * Crea formulario vehiculo
+ */
   
   crearFormVehicles(): void {
     this.formCar = this.formBuilder.group({
@@ -88,18 +96,16 @@ export class DatosVehiculosComponent implements OnInit {
       
         if(res.length >  0){
 
-
           this.marcas = res;
           this.formCar.get('marca').enable();
-
-          console.log(this.formCar);
-
-  
+          
+          console.log(this.marcas);
 
         // me suscribo a los cambios de marca
           this.formCar.controls.marca.valueChanges.subscribe(resmarca =>{
             
-            console.log(resmarca)
+            this.marcaSeleccionada = resmarca;
+            console.log(this.marcaSeleccionada)
             // si esta seleccionada la marca habilita años  
             if(this.formCar.controls.marca.value.length > 0){
    
@@ -119,7 +125,11 @@ export class DatosVehiculosComponent implements OnInit {
 
     });
   }
-//años
+/**
+ * 
+ *  Cargar años
+ * 
+ */
   cargarAnio(){
     const anioActual = new Date().getFullYear();
 
@@ -133,42 +143,75 @@ export class DatosVehiculosComponent implements OnInit {
 
     if(this.formCar.controls.anio.value > 0){
 
+      this.cargarModelos();
       this.formCar.get('modelo').enable();
-
-      this.cargarModelos(this.marcaSeleccionada)
-    
-    }
-
       
+    }
      this.anioSeleccionado = res;
-
-
    })
-
-   
 
 
   }
-  // modelos
-  cargarModelos(codigo){
+ /**
+  * 
+  *   Cargar modeloes
+  * 
+  */
+  cargarModelos(){
 
+    // this.marcaSeleccionada = this.marcas.find(marca => marca.codigo );
 
-
-
-   this.datosVehiculosService.getModelos(codigo,this.anioSeleccionado).subscribe(res =>{
+   this.datosVehiculosService.getModelos( this.marcaSeleccionada.codigo,this.anioSeleccionado).subscribe(res =>{
      
-    
       this.modelos = res;
-    
-    console.log(res,'saassd');
-   })
-   
   
+    
+   },(error => {
+
+    Swal.fire({
+      icon: 'error',
+      text: 'No existen modelos de ese año!',
+    });
+
+    }));
+
+    this.formCar.controls.modelo.valueChanges.subscribe(res =>{
 
 
+      console.log(res,'ssda');
+      if(this.formCar.controls.modelo.value.length > 0  ){
+       
+        this.cargarVersion();
+        this.formCar.get('version').enable(); 
+
+      } 
 
 
+    })
+  
+  }
+  /**
+   * 
+   * Cargar version
+   * 
+   */
+  cargarVersion(){
+
+    this.modeloSeleccionado = this.modelos;
+
+    console.log(this.modeloSeleccionado,'sss');
+      // this.datosVehiculosService
+      // .getVersiones(this.marcaSeleccionada.codigo,
+      //   this.anioSeleccionado,this.modeloSeleccionado
+      //   ).subscribe( res =>{
+
+
+      //     console.log(res,'versip');
+
+      //   })
 
   }
+
+
 
 }

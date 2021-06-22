@@ -23,7 +23,7 @@
     <label for="Modelos" class="form-label">Modelos</label>
     <select class="form-select form-select-lg" formControlName="modelo">
       <option value="" selected disabled>Seleccionar Modelo</option> 
-        <option value="1">One</option>
+        <option *ngFor="let modelo of modelos"> {{modelo}} </option>
     </select>
     </div> 
      <div class="mb-3 px-4 ">
