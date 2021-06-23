@@ -5,54 +5,75 @@
   <form class="row contact-wrap contenido" [formGroup]="formUser"  (ngSubmit)="enviarPersonales()">
     
     <h2 class="modal-header navestilo" >Registrar Asegurado</h2>
-  <div class=" px-4 col-md-4">
-    <label for="DNI" class="form-label">DNI</label>
-    <input type="number" formControlName="DNI"  class="form-control input form-control-sm" id="DNI" minlength="7" maxlength="8" onkeyup="if (this.value.length == this.getAttribute('maxlength')) Nombre.focus()">
-  </div>
-  <div class="mb-3 col-md-3">
-    <label for="nombre" class="form-label">Nombre</label>
-    <input type="text" formControlName="Nombre"  class="form-control form-control-sm" id="Nombre" minlength="2"  maxlength="15" onkeyup="if (this.value.length == this.getAttribute('maxlength')) Apellido.focus()" >
-  </div>
-  <div class="mb-3 col-md-4">
-        <label for="apellido" class="form-label">Apellido</label>
-        <input type="text" formControlName="Apellido" class="form-control form-control-sm " id="Apellido" minlength="2"  maxlength="15" onkeyup="if (this.value.length == this.getAttribute('maxlength')) Email.focus()">
+      <div class=" px-4 col-md-4">
+        <label for="DNI" class="form-label">DNI</label>
+        <input type="text" formControlName="DNI"  class="form-control input form-control-sm" id="DNI" minlength="7" maxlength="8" onkeyup="if (this.value.length == this.getAttribute('maxlength')) Nombre.focus()">
+        <small class="text-danger" *ngIf="validarForm('DNI')">Dni Incorrecto</small>
       </div>
       
-      <!-- Fecha nacimiento -->
+      <!--Nombre-->
+    <div class="mb-3 col-md-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" formControlName="Nombre"  class="form-control form-control-sm" id="Nombre" minlength="2"  maxlength="15" onkeyup="if (this.value.length == this.getAttribute('maxlength')) Apellido.focus()" >
+      <small class="text-danger" *ngIf="validarForm('Nombre')">Nombre entre 2 y 18 caracteres(Solo letras) </small>
+    </div>
+
+    <!--Apellido-->
+    <div class="mb-3 col-md-4">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input type="text" formControlName="Apellido" class="form-control form-control-sm " id="Apellido" minlength="2"  maxlength="15" onkeyup="if (this.value.length == this.getAttribute('maxlength')) Email.focus()">
+        <small class="text-danger" *ngIf="validarForm('Apellido')">Apellido entre 2 y 18 caracteres(Solo letras) </small>
+    </div>
+      
+      <!-- Email -->
+
       <div class="mb-3 px-4 col-md-7">
         <label for="email" class="form-label">Email</label>
-        <input type="email" formControlName="Email" class="form-control form-control-sm"  id="Email" aria-describedby="emailHelp" maxlength="40"   onkeyup="if (this.value.length == this.getAttribute('maxlength')) Celular.focus()">
+        <input type="email" formControlName="Email" class="form-control form-control-sm"  id="Email" aria-describedby="emailHelp" maxlength="40"   onkeyup="if (this.value.length == this.getAttribute('maxlength')) Celular.focus()">      
       </div>
+
+      <!--fecha nacimiento -->
+
       <div class="mb-3  col-md-4">
           <label for="nacimiento" class="form-label">Fecha de Nacimiento</label>
-          <input type="date" formControlName="FechaNacimento"   class="form-control form-control-sm" id="FechaNacimento">
+          <input type="date" formControlName="FechaNacimento"    class="form-control form-control-sm" id="FechaNacimento">
+          <small class="text-danger" *ngIf="validarForm('FechaNacimento')">ser mayor de 18 años y menor de 99 años</small>
+      
         </div>
+      
+        <!--Celular -->
+
         <div class="mb-3 px-4 col-md-6">
           <label for="celular" class="form-label">Celular</label>
           <input type="tel" formControlName="Celular" class="form-control form-control-sm" id="Celular" maxlength="14"  onkeyup="if (this.value.length == this.getAttribute('maxlength')) Telefono.focus()">
+        
         </div>
+
+     <!--Telefono-->  
+
     <div class="mb-3 col-md-5">
       <label for="telefono" class="form-label">Telefono</label>
       <input type="tel" formControlName="Telefono" class="form-control form-control-sm" id="Telefono" maxlength="10" >
     </div>
     
     <!-- Ubicacion  --> 
+
     <div class="mb-3 row">
       <label for="ubicacion" class="form-label px-4">Ubicacion</label>
-      <div class="col-md-4 px-4 col-md-4 ">
+      <div class="col-md-4 px-4  ">
         <select class="form-select form-select-sm"  formControlName="Provincia" (change) = "getMunicipio($event.target.value)">
           <option value="" selected disabled>Seleccionar Provincia</option>
           <option  *ngFor="let provincia of provincias" [value]="provincia.nombre">{{provincia.nombre}}</option>
         </select>
       </div>
-      <div class="col-md-4 col-md-4">
+      <div class="col-md-4 ">
         <select class="form-select form-select-sm" formControlName="Ciudad" >
           <option value="" selected disabled>Seleccionar Ciudad</option> 
           <option *ngFor="let municipio of municipios">{{municipio.nombre}}</option>
         </select>
       </div>
       
-      <div class="col-md-4  col-md-4 ">
+      <div class="col-md-4  ">
         <input type="text" formControlName="Domicilio" class="form-control form-control-sm" formControlName="Domicilio"  id="Domicilio" placeholder="Domicilio">
       </div>
     </div>
@@ -63,10 +84,14 @@
     <div class="mb-3 px-4 col-md-5">
       <label for="Usuario" class="form-label">Usuario</label>
       <input type="text" class="form-control form-control-sm" formControlName="Usuario" id="Usuario" minlength="3" maxlength="30" onkeyup="if (this.value.length == this.getAttribute('maxlength')) Password.focus()">
+      <small class="text-danger" *ngIf="validarForm('Usuario')">Usuario entre 3 y 30 caracteres</small>
+    
     </div>
     <div class="mb-3 col-md-3">
       <label for="Password1" class="form-label">Contraseña</label>
       <input type="password" class="form-control form-control-sm" formControlName="Password" id="Password" >
+      <small class="text-danger" *ngIf="validarForm('Password')">Una mayúscula,Una minúscula y minimo 8 caracteres</small>
+    
     </div>
     <div class="mb-3 col-md-3">
       <label for="Password2" class="form-label"> Confirmar Contraseña </label>

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Version } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Marcas } from 'src/app/interfaces/Marcas';
+import { Modelo } from 'src/app/interfaces/Modelo';
 import { Vehiculos } from 'src/app/models/Vehiculos';
 import { environment } from 'src/environments/environment';
 
@@ -25,12 +26,12 @@ export class DatosVehiculosService {
 
   }
 
-  getModelos(code:number, anio:number){
-    return this.http.get(`${ this.Url }/${ code }/${ anio }`);
+  getModelos(code:number, anio:number):Observable<Modelo>{
+    return this.http.get<Modelo>(`${ this.Url }/${ code }/${ anio }`);
   }
 
-  getVersiones(code:number, anio:number, model:string){
-    return this.http.get(`${ this.Url }/${ code }/${ anio }/${ model }`);
+  getVersiones(code:number, anio:number, model:string):Observable<Version>{
+    return this.http.get<Version>(`${ this.Url }/${ code }/${ anio }/${ model }`);
   }
 
   guardarVehiculosStorage(vehiculo:Vehiculos):void{

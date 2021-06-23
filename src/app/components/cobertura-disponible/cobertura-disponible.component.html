@@ -2,48 +2,38 @@
   <h2 class="modal-header navestilo" >Elegir Cobertura</h2>
   
   <div class="row container">
-
-    <div class="col-sm-6 mt-4" *ngFor="let cobertura of coberturas">
+    <div class="col-md-6 mt-2 mb-4" *ngFor="let cobertura of coberturas" >
       <div class="card">
         <div class="card-body">
           <h5 class="card-title text-center">{{cobertura.titulo}} </h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <small > codigoProducto: {{cobertura.codigoProducto}} </small>
-          <br>
-          <small> costo: ${{cobertura.costo}} </small>
-          <br>
-          <small> producto: {{cobertura.producto}} </small>
-          <br>
-          <small> texto: {{cobertura.texto}} </small>
-          <br>
-          <small> franquicia: {{cobertura.franquicia}} </small>
-          <br>
-          <small> descripcion: {{cobertura.descripcion}} </small>
-          <br>
-          <small> puntaje: {{cobertura.puntaje}} </small>
-          <br>
-          <small> granizo: {{cobertura.granizo}} </small>
-          <br>
-
-          <a href="#" class="btn btn-primary  derecha">Go somewhere</a>
+          <p class="card-text text-center"><small>  {{cobertura.texto}}</small> </p>
+          <ul>
+            <li> <b> {{cobertura.descripcion}} </b> </li>
+           <br>
+            <li > codigoProducto:<b>{{cobertura.codigoProducto}} </b> </li>
+            <br>
+            <li> costo:<b> ${{cobertura.costo}} </b> </li>
+            <br>
+            <li> producto:<b>{{cobertura.producto}} </b> </li>
+            <br>
+            <li> texto:<b> {{cobertura.texto}}</b>  </li>
+            <br>
+            <li> franquicia:<b> {{cobertura.franquicia}}</b> </li>
+            <br>
+            <li> puntaje: <b>{{cobertura.puntaje}}</b> </li>
+            <br>
+            <li> granizo: <b>{{cobertura.granizo}}</b> </li>
+          </ul>
+          <button class="btn navestilo derecha" (click)="enviarCobertura(cobertura)" >Seleccionar</button>
         </div>
       </div>
     </div>
-
-
-
-
-
-<div class="flechas"> 
-  <button type="submit"  class="flecha ">
+    
+    <!--Botones-->
+    <div class="flechas "> 
+      <button type="submit" (click)="goBack()"  class="flecha ">
       <i class="bi bi-arrow-left-circle-fill "> </i>
-  </button> 
-  <button type="submit" (click)="enviar()" class="btn btn-primary  derecha">
-       Enviar
-  </button> 
-</div> 
-    
-
-    
+      </button> 
+    </div>   
   </div>
 </div>

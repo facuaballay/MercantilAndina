@@ -8,10 +8,10 @@
       <select class="form-select form-select-lg" formControlName="marca" >
         <option value="" selected disabled>Seleccionar Marca</option> 
         <option *ngFor="let marca of marcas">{{marca.desc}}</option>
-       
       </select>
-      
     </div> 
+    
+    <!--Años -->>
      <div class="mb-3 px-4">
       <label for="anio" class="form-label">Año</label>
       <select class="form-select form-select-lg" formControlName="anio">
@@ -19,6 +19,8 @@
         <option *ngFor="let anio of anios" > {{anio}} </option>
       </select>
     </div> 
+
+    <!--Modelos-->
     <div class="mb-3 px-4 "> 
     <label for="Modelos" class="form-label">Modelos</label>
     <select class="form-select form-select-lg" formControlName="modelo">
@@ -26,27 +28,23 @@
         <option *ngFor="let modelo of modelos"> {{modelo}} </option>
     </select>
     </div> 
+
+    <!--Versiones-->
      <div class="mb-3 px-4 ">
       <label for="Modelos" class="form-label">Version</label>
         <select class="form-select form-select-lg" formControlName="version">
           <option value="" selected disabled>Seleccionar Version</option> 
-
-
-            <option value="1">One</option>
+          <option *ngFor="let version of versiones"> {{version.desc}} </option>
         </select>
-    
      </div> 
 
-
-     
+     <!--Botones-->
      <div class="flechas"> 
-     
-     <button type="submit" (onsubmit)="goNext()" class="flecha derecha">
+       <button type="submit" (onsubmit)="goNext()" class="flecha derecha">
          <i class="bi bi-arrow-right-circle-fill "></i>
      </button> 
      <button type="submit"  (click)="goBack()"class="flecha ">
       <i class="bi bi-arrow-left-circle-fill "> </i>
      </button> 
     </div> 
-
 </form>

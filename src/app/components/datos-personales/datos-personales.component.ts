@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Observable, VirtualTimeScheduler} from 'rxjs';
 import { Municipio } from 'src/app/interfaces/Municipios';
+import { Provincia } from 'src/app/interfaces/Provincias';
 import { Persona, Ubicacion } from 'src/app/models/Personas';
 import { GeograficoService } from 'src/app/services/DatosGeograficos/geografico.service';
 import { DatosPersonalesService } from 'src/app/services/DatosPersonales/datos-personales.service';
@@ -17,12 +18,14 @@ export class DatosPersonalesComponent implements OnInit {
 
   formUser: FormGroup;
   persona: Persona;
+  date = new Date().getFullYear();
 
-  date = new Date();
+  edadMinima = this.date - 18;
+  edadMaxima = this.date - 99; 
 
-  provincias;
+  provincias:Provincia[] = [];
   idProvincias = [];
-  municipios = [];
+  municipios:Municipio[] = [];
 
   datos;
 
@@ -40,7 +43,8 @@ export class DatosPersonalesComponent implements OnInit {
     this.formUser.controls.Ciudad.disable();
     this.formUser.controls.Domicilio.disable();
 
-    this.modificarFormulario();
+    console.log(this.edadMaxima);
+    console.log(this.edadMinima);
 
 
     
@@ -56,17 +60,17 @@ export class DatosPersonalesComponent implements OnInit {
 
   crearFormUser(): void {
     this.formUser = this.formBuilder.group({
-      DNI: new FormControl('', [Validators.required, Validators.pattern('([0-9])*')]),
-      Apellido: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]),
-      Nombre: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*'),]),
+      DNI: new FormControl('', [Validators.required, Validators.pattern('([0-9])*'),Validators.minLength(7), Validators.maxLength(8)]),
+      Apellido: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.minLength(2), Validators.maxLength(15)]),
+      Nombre: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*'),Validators.minLength(2), Validators.maxLength(15)]),
       Email: new FormControl('', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$')]),
       Celular: new FormControl('', [Validators.pattern('(?:(?:00)?549?)?0?(?:11|[2368]\\d)(?:(?=\\d{0,2}15)\\d{2})??\\d{8}$')]),
       Telefono: new FormControl('', [Validators.pattern('([0-9])*')]),
       Provincia: new FormControl('', Validators.required),
       Ciudad: new FormControl('', Validators.required),
       Domicilio: new FormControl('', Validators.required),
-      FechaNacimento: new FormControl('', Validators.required),
-      Usuario: new FormControl('', Validators.required),
+      FechaNacimento: new FormControl('', [Validators.required]),
+      Usuario: new FormControl('',[ Validators.required,Validators.minLength(3), Validators.maxLength(30)]),
       Password: new FormControl('', [Validators.required, Validators.pattern('(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S*')]),
       Password2: new FormControl('', [Validators.required, Validators.pattern('(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S*')]),
     });
@@ -81,13 +85,21 @@ export class DatosPersonalesComponent implements OnInit {
   enviarPersonales(): void {
     this.datosPersonalesService.checkUsers(this.formUser.value.Usuario).subscribe(res => {
 
-      console.log(this.formUser);
+      console.log(this.formUser.controls.FechaNacimento,'s');
+
+      this.validarFecha();
+      // console.log(this.edadMaxima);
+      // console.log(this.edadMinima);
+
       /**
-      * TODO: POner el verdadero check
+      * this.formUser.valid TODO: POner el verdadero check
       */
-      if (true) {
+      if (this.formUser.valid) {
         
-        this.crearUsuario()
+
+        this.crearUsuario();
+        this.modificarFormulario();
+
         
         Swal.fire('', 'Usuario registrado', 'success')  
           
@@ -99,9 +111,7 @@ export class DatosPersonalesComponent implements OnInit {
           text: 'Complete el formulario',
         })
 
-        /**
-         * TODO: Mostrar error en swet alert
-         */
+      
       }
     });
   }
@@ -124,6 +134,7 @@ export class DatosPersonalesComponent implements OnInit {
     } = this.formUser.value;
 
     if (Password !== Password2) {
+      Swal.fire('error','las contraseñas deben coincidir','error')
       this.formUser.setErrors({ Password: 'Los password deben de ser iguales' })
       return;
     }
@@ -166,7 +177,7 @@ export class DatosPersonalesComponent implements OnInit {
 
 
 
-    });
+    },error => Swal.fire('Error','Error al cargar provincias','error'));
   }
 
   getMunicipio(provinciaNombre):void {
@@ -179,12 +190,16 @@ export class DatosPersonalesComponent implements OnInit {
         this.formUser.controls.Domicilio.enable();
       }
     
-    });    
+    },error => Swal.fire('Error','Error al cargar municipios','error'));    
   }
-
+/**
+ * 
+ * Rellena formulario con datos del localstorage
+ * 
+ * 
+ */
   modificarFormulario(){
 
-    
     if(localStorage.getItem('Persona').length > 0){
 
       this.formUser.controls.Ciudad.enable();
@@ -209,12 +224,25 @@ export class DatosPersonalesComponent implements OnInit {
 
     }
 
+  }
+  /**
+   * 
+   * @param campos 
+   * Validacion reactiva formulario.
+   * @returns 
+   */
 
-
+   validarForm(campos){
+     
+    return this.formUser.get(campos).invalid && this.formUser.get(campos).touched;
+  }
+  
+  validarFecha(){
+    if(this.date){
+      console.log(this.date);
+    }
   }
 
-
-
-
+  
   
 }

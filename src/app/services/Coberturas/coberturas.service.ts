@@ -14,10 +14,10 @@ export class CoberturasService {
 
   }
 
-  getCoberturas(): Observable<Cobertura>{
+  getCoberturas(): Observable<Cobertura[]>{
 
   
-    return this.http.get<Cobertura>(`${environment.baseUrl}/api_mock_frontend/v1/coberturas`);
+    return this.http.get<Cobertura[]>(`${environment.baseUrl}/api_mock_frontend/v1/coberturas`);
   }
 
   guardarStorageCobertura(cobertura:Cobertura):void{

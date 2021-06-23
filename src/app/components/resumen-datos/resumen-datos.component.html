@@ -1,0 +1,45 @@
+<div class=" contact-wrap contenido ">
+    <h2 class="modal-header navestilo" >Resumen de datos</h2>
+
+    <div class="text-center"> <h4>Resumen Datos introducidos </h4> </div>
+    
+
+  <div class="container row  mt-5 ">
+    
+    <ul class="list-group list-group-flush col-md-4 text-center">
+      <h5 class="card-title">Datos Personales</h5>
+      <li class="list-group-item "> <small><b>Nombre:{{Persona.Nombre}}</b> </small></li>
+      <li class="list-group-item "><small><b>Apellido:{{Persona.Apellido}}</b> </small></li>
+      <li class="list-group-item" ><small><b>DNI:{{Persona.DNI}}</b> </small></li>
+      <li class="list-group-item "><small><b>Usuario:{{Persona.Usuario}}</b> </small></li>
+    </ul>
+
+    <!--Datos Vehiculos-->
+    <ul class="list-group list-group-flush col-md-4 text-center">
+      <h5 class="card-title">Datos Vehiculo </h5>
+      <li class="list-group-item "><small> <b>{{Vehiculo.Marca}}</b> </small></li>
+      <li class="list-group-item "><small> <b>{{Vehiculo.Modelo}}</b> </small></li>
+      <li class="list-group-item " ><small> <b>{{Vehiculo.Anio}}</b> </small></li>
+      <li class="list-group-item "><small> <b>{{Vehiculo.Version}}</b> </small></li>
+    </ul>
+
+    <!--Datos Coberturas-->
+    <ul class="list-group list-group-flush col-md-4 text-center">
+      <h5 class="card-title">Datos Cobertura</h5>
+      <li class="list-group-item " ><small> <b>{{Cobertura.titulo}}</b> </small></li>
+      <li class="list-group-item "> <small><b>{{Cobertura.texto}}</b> </small></li>
+      <li class="list-group-item "><small><b>Costo:${{Cobertura.costo}}</b>  </small> </li>
+      <li class="list-group-item "><small><b>franquicia:{{Cobertura.franquicia}}</b>  </small></li>
+    </ul>
+    
+    
+    <div class="flechas mt-5 ">  
+      <button class="btn btn-primary navestilo  derecha mt-3" style="margin-right: 5px;"  (click)="enviarFormularios()" >Enviar Formulario</button>
+      <button type="submit" (click)="goBack()"  class="flecha ">
+        <i class="bi bi-arrow-left-circle-fill "> </i>
+      </button> 
+    </div> 
+    
+  </div>
+
+</div>

@@ -14,9 +14,11 @@ import { DatosPersonalesComponent } from './components/datos-personales/datos-pe
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { CoberturaDisponibleComponent } from './components/cobertura-disponible/cobertura-disponible.component';
 import { DatosVehiculosComponent } from './components/datos-vehiculos/datos-vehiculos.component';
+import { ResumenDatosComponent } from './components/resumen-datos/resumen-datos.component';
 
 //guard
-// import { CargarNextForm } from './guards/cargarNextForm.guard';
+import {  GuardVehiculo } from './guards/GuardVehiculo.guard';
+import { GuardCobertura } from './guards/GuardCobertura.guard';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { DatosVehiculosComponent } from './components/datos-vehiculos/datos-vehi
     DatosPersonalesComponent,
     NavbarComponent,
     DatosVehiculosComponent,
-    CoberturaDisponibleComponent
+    CoberturaDisponibleComponent,
+    ResumenDatosComponent
   ],
   imports: [
    BrowserModule,
@@ -36,7 +39,7 @@ import { DatosVehiculosComponent } from './components/datos-vehiculos/datos-vehi
    SweetAlert2Module
     
   ],
-  providers: [],
+  providers: [GuardCobertura,GuardVehiculo],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

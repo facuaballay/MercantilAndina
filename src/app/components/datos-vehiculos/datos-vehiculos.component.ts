@@ -4,6 +4,7 @@ import { DatosVehiculosService } from 'src/app/services/DatosVehiculos/datos-veh
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Marcas } from 'src/app/interfaces/Marcas';
+import { Vehiculos } from 'src/app/models/Vehiculos';
 import { Modelo } from 'src/app/interfaces/Modelo';
 
 
@@ -15,18 +16,17 @@ import { Modelo } from 'src/app/interfaces/Modelo';
 export class DatosVehiculosComponent implements OnInit {
 
   formCar: FormGroup;
+  vehiculo:Vehiculos;
   
-  marcas;
-  modelos;
-  versiones;
+  marcas:Marcas[] = [];
+  modelos:Modelo;
+  versiones:Version;
   anios: number[] = [];
-
-
-  
+  datos;  
 
   anioSeleccionado:number;
   marcaSeleccionada:Marcas;
-  modeloSeleccionado;
+  modeloSeleccionado:string;
 
 
   constructor(
@@ -44,26 +44,34 @@ export class DatosVehiculosComponent implements OnInit {
       this.formCar.get('modelo').disable();
       this.formCar.get('version').disable(); 
 
-     
-
      }
 
 
   ngOnInit(): void {
   }
-
+/**
+ * 
+ *  funcion Enviar vehiculos 
+ *
+ */
   enviarVehiculos(){
 
-
     this.goBack();
-    this.goNext();
 
+    if(this.formCar.valid){
+
+      Swal.fire('Auto Registrado','','success');
+
+      this.goNext();
+    }else{
+      Swal.fire('','Rellene los campos','error');
+      this.route.navigateByUrl('/datos-vehiculos');
+    }
   }
 /**
  * 
  * Crea formulario vehiculo
  */
-  
   crearFormVehicles(): void {
     this.formCar = this.formBuilder.group({
       marca: new FormControl('',Validators.required),
@@ -72,25 +80,50 @@ export class DatosVehiculosComponent implements OnInit {
       version: new FormControl('',Validators.required),
     });
   };
-
-
-
+/**
+ * 
+ * 
+ *  ir atras funcion
+ * 
+ */
   
   goBack():void{
 
-    console.log('atras')
-
      this.route.navigateByUrl('/datos-personales');
-    
+
   }
+  /**
+   * 
+   * ir adelante y guardar vehiculos en el storage
+   * 
+   */
   goNext():void{
+    const {
+      marca,
+      anio,
+      modelo,
+      version,
+    } = this.formCar.value;
+
+    this.vehiculo = new Vehiculos(
+      marca,
+      anio,
+      modelo,
+      version
+      );
+
+    this.guardaVehiculosStorage();
+
     this.route.navigateByUrl('/datos-coberturas');
-    console.log('adelante')
 
   }
 
-  ///marcas
-  cargarMarcas(){
+  /***
+   * traigo servicio y marcas
+   * 
+   * 
+   */
+  cargarMarcas():void{
 
     this.datosVehiculosService.getMarcas().subscribe(res =>{
       
@@ -99,13 +132,11 @@ export class DatosVehiculosComponent implements OnInit {
           this.marcas = res;
           this.formCar.get('marca').enable();
           
-          console.log(this.marcas);
 
         // me suscribo a los cambios de marca
           this.formCar.controls.marca.valueChanges.subscribe(resmarca =>{
             
             this.marcaSeleccionada = resmarca;
-            console.log(this.marcaSeleccionada)
             // si esta seleccionada la marca habilita años  
             if(this.formCar.controls.marca.value.length > 0){
    
@@ -123,7 +154,7 @@ export class DatosVehiculosComponent implements OnInit {
 
 
 
-    });
+    },error => Swal.fire('Error',error,'error'));
   }
 /**
  * 
@@ -143,12 +174,13 @@ export class DatosVehiculosComponent implements OnInit {
 
     if(this.formCar.controls.anio.value > 0){
 
-      this.cargarModelos();
-      this.formCar.get('modelo').enable();
-      
-    }
      this.anioSeleccionado = res;
-   })
+      
+      this.formCar.get('modelo').enable();
+
+      this.cargarModelos(this.marcaSeleccionada)
+    }
+   },error => Swal.fire('Error',error,'error'))
 
 
   }
@@ -157,17 +189,19 @@ export class DatosVehiculosComponent implements OnInit {
   *   Cargar modeloes
   * 
   */
-  cargarModelos(){
+  cargarModelos(marcaNombre){
 
-    // this.marcaSeleccionada = this.marcas.find(marca => marca.codigo );
+    this.marcaSeleccionada = this.marcas.find(marca => marca.desc === marcaNombre);
 
-   this.datosVehiculosService.getModelos( this.marcaSeleccionada.codigo,this.anioSeleccionado).subscribe(res =>{
+
+
+    
+    this.datosVehiculosService.getModelos(this.marcaSeleccionada.codigo,this.anioSeleccionado).subscribe(res =>{
      
       this.modelos = res;
   
     
    },(error => {
-
     Swal.fire({
       icon: 'error',
       text: 'No existen modelos de ese año!',
@@ -178,17 +212,15 @@ export class DatosVehiculosComponent implements OnInit {
     this.formCar.controls.modelo.valueChanges.subscribe(res =>{
 
 
-      console.log(res,'ssda');
+      this.modeloSeleccionado = res;
+
       if(this.formCar.controls.modelo.value.length > 0  ){
-       
+        
         this.cargarVersion();
         this.formCar.get('version').enable(); 
 
-      } 
-
-
-    })
-  
+        } 
+    });
   }
   /**
    * 
@@ -197,21 +229,25 @@ export class DatosVehiculosComponent implements OnInit {
    */
   cargarVersion(){
 
-    this.modeloSeleccionado = this.modelos;
 
-    console.log(this.modeloSeleccionado,'sss');
-      // this.datosVehiculosService
-      // .getVersiones(this.marcaSeleccionada.codigo,
-      //   this.anioSeleccionado,this.modeloSeleccionado
-      //   ).subscribe( res =>{
-
-
-      //     console.log(res,'versip');
-
-      //   })
+  this.datosVehiculosService.getVersiones(this.marcaSeleccionada.codigo,this.anioSeleccionado,this.modeloSeleccionado).subscribe(res =>{
+    
+    this.versiones = res;
+    
+    },error => Swal.fire('Error','Error al cargar versiones','error'))
+      
 
   }
-
+  /**
+   * 
+   * guardar vehiculos en el storage
+   * 
+   */
+  
+  guardaVehiculosStorage(){
+    
+    this.datosVehiculosService.guardarVehiculosStorage(this.vehiculo);
+  }
 
 
 }
