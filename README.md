@@ -21,7 +21,8 @@ El proyecto consiste en 4 formularios que mediante simulan un registro.
 - `ResumenDatosComponent`: componente que contiene todos los datos de los
  formularios anteriores y mediante el localstorage Muestra los datos.
  
-
+- Se uso sweetalert2 para las alertas.
+- se uso bootstrap 5.
 
 
 ## Funcionalidades implementadas
