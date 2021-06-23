@@ -17,11 +17,23 @@ export class GeograficoService {
 
   }
 
-
+  /**
+   * 
+   * getProvincias()
+   * @returns 
+   * Obtiene provincias de la api.
+   * 
+   */
   getProvincias(): Observable<Provincia[]> {
     return this.http.get(`${this.Url}/provincias`).pipe(pluck('provincias'));
   }
-
+  /**
+   * getMunicipios(param)
+   * @param provinciaNombre 
+   * @returns 
+   * Obtiene municipios de la api.
+   * 
+   */
   getMunicipios(provinciaNombre:string): Observable<Municipios>{
     return this.http.get<Municipios>(`${this.Url}/municipios?provincia=${provinciaNombre}&campos=id,nombre&max=135`);
     

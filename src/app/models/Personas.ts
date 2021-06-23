@@ -7,7 +7,7 @@ export class Persona {
     public Celular: number;
     public Telefono: number;
     public Ubicacion: Ubicacion;//provincia/ciudad/domicilio
-    public FechaNacimento: string;
+    public FechaNacimiento: string;
     public Usuario: string;
     public Password: string;
 
@@ -30,7 +30,7 @@ export class Persona {
         this.Celular = Celular;
         this.Telefono = Telefono;
         this.Ubicacion = Ubicacion;
-        this.FechaNacimento = FechaNacimento;
+        this.FechaNacimiento = FechaNacimento;
         this.Usuario = Usuario;
         this.Password = Password;
     }

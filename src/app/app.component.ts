@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'MercantilAndina';
 
 
-  constructor(marcasService:DatosVehiculosService){
+  constructor(){
 
    
    

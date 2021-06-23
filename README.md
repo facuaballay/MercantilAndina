@@ -1,27 +1,34 @@
-# MercantilAndina
+# MercantilAndina Challenge 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.3.
 
-## Development server
+Este es un proyecto realizado en Angular 10.1.6
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Para instalar las dependencias necesarias del proyecto.
 
-## Code scaffolding
+- Ejecutar `npm install`;
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Descripción
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+El proyecto consiste en 4 formularios que mediante simulan un registro.
 
-## Running unit tests
+- `DatosPersonalesComponent`: componente que contiene los datos del formulario persona  con sus respectivas validaciones y  los guarda en el localstorage.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- `DatosVehiculosComponent`: componente que contiene los datos del formulario vehiculo con sus respectivas validaciones y  los guarda en el localstorage.
 
-## Running end-to-end tests
+- `CoberturaDisponibleComponent`: componente que contiene la cobertura elegida y la guarda en el localstorage.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+- `ResumenDatosComponent`: componente que contiene todos los datos de los
+ formularios anteriores y mediante el localstorage Muestra los datos.
+ 
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Funcionalidades implementadas
+-Validacion de formularios.
+-Guardado en localstorage.
+-Guards para las rutas.
+-Manejo de errores.
+
+
+git arreglo bug rellenar formulario, validacionNacimiento y actualizacion readme

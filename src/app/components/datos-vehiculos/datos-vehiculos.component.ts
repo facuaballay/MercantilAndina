@@ -17,12 +17,12 @@ export class DatosVehiculosComponent implements OnInit {
 
   formCar: FormGroup;
   vehiculo:Vehiculos;
+  formback;
   
   marcas:Marcas[] = [];
   modelos:Modelo;
   versiones:Version;
   anios: number[] = [];
-  datos;  
 
   anioSeleccionado:number;
   marcaSeleccionada:Marcas;
@@ -49,11 +49,12 @@ export class DatosVehiculosComponent implements OnInit {
 
   ngOnInit(): void {
   }
-/**
- * 
- *  funcion Enviar vehiculos 
- *
- */
+  /**
+   * 
+   * enviarVehiculos()
+   *  Enviar el formulario si es valido
+   *
+   */
   enviarVehiculos(){
 
     this.goBack();
@@ -68,10 +69,12 @@ export class DatosVehiculosComponent implements OnInit {
       this.route.navigateByUrl('/datos-vehiculos');
     }
   }
-/**
- * 
- * Crea formulario vehiculo
- */
+  /**
+   * 
+   * crearFormVehicles()
+   * Crea formulario vehiculo
+   * 
+   */
   crearFormVehicles(): void {
     this.formCar = this.formBuilder.group({
       marca: new FormControl('',Validators.required),
@@ -82,8 +85,8 @@ export class DatosVehiculosComponent implements OnInit {
   };
 /**
  * 
- * 
- *  ir atras funcion
+ * goBack()
+ *  va a la pagina de atras 
  * 
  */
   
@@ -91,10 +94,11 @@ export class DatosVehiculosComponent implements OnInit {
 
      this.route.navigateByUrl('/datos-personales');
 
+   
   }
   /**
-   * 
-   * ir adelante y guardar vehiculos en el storage
+   * goNext()
+   * setea las constantes y va a la siguiente pagina
    * 
    */
   goNext():void{
@@ -119,8 +123,9 @@ export class DatosVehiculosComponent implements OnInit {
   }
 
   /***
-   * traigo servicio y marcas
    * 
+   * cargarMarcas():void
+   * traigo marcas desde la api
    * 
    */
   cargarMarcas():void{
@@ -157,8 +162,8 @@ export class DatosVehiculosComponent implements OnInit {
     },error => Swal.fire('Error',error,'error'));
   }
 /**
- * 
- *  Cargar años
+ *  cargarAnio()
+ *  Cargar años desde la api
  * 
  */
   cargarAnio(){
@@ -169,7 +174,7 @@ export class DatosVehiculosComponent implements OnInit {
       this.anios.push(anioActual - i);
 
     }
-    // me suscribo a los cambios del input
+    // me suscribo a los cambios del input.
    this.formCar.controls.anio.valueChanges.subscribe( res => {
 
     if(this.formCar.controls.anio.value > 0){
@@ -185,32 +190,27 @@ export class DatosVehiculosComponent implements OnInit {
 
   }
  /**
-  * 
-  *   Cargar modeloes
+  * cargarModelos(marcaNombre)
+  * @param marcaNombre 
+  * carga los modelos desde la api
   * 
   */
   cargarModelos(marcaNombre){
 
     this.marcaSeleccionada = this.marcas.find(marca => marca.desc === marcaNombre);
-
-
-
     
     this.datosVehiculosService.getModelos(this.marcaSeleccionada.codigo,this.anioSeleccionado).subscribe(res =>{
      
       this.modelos = res;
   
-    
    },(error => {
     Swal.fire({
       icon: 'error',
       text: 'No existen modelos de ese año!',
-    });
-
+      });
     }));
-
+    //me subscribo a los cambios del input.
     this.formCar.controls.modelo.valueChanges.subscribe(res =>{
-
 
       this.modeloSeleccionado = res;
 
@@ -223,23 +223,19 @@ export class DatosVehiculosComponent implements OnInit {
     });
   }
   /**
-   * 
-   * Cargar version
+   * cargarVersion()
+   * Cargar versiones desde la api
    * 
    */
   cargarVersion(){
-
-
-  this.datosVehiculosService.getVersiones(this.marcaSeleccionada.codigo,this.anioSeleccionado,this.modeloSeleccionado).subscribe(res =>{
+   this.datosVehiculosService.getVersiones(this.marcaSeleccionada.codigo,this.anioSeleccionado,this.modeloSeleccionado).subscribe(res =>{
     
     this.versiones = res;
     
     },error => Swal.fire('Error','Error al cargar versiones','error'))
-      
-
   }
   /**
-   * 
+   * guardaVehiculosStorage()
    * guardar vehiculos en el storage
    * 
    */

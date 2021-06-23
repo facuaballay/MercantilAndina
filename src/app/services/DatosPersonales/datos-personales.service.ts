@@ -15,15 +15,24 @@ export class DatosPersonalesService {
 
   }
   /**
+   * checkUsers(params)
+   * @param usuario
    * comprueba usuarios disponibles.
-   * @param usuario: string
    */
   checkUsers(usuario: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.Url}/usuarios/?nombre=${usuario}`);
   }
-
+  /**
+   *
+   * guardarStoragePersona()
+   * @param persona 
+   * Guarda persona en el localstorage
+   * 
+  */
   guardarStoragePersona(persona: Persona): void {
     localStorage.setItem('Persona', JSON.stringify(persona));
   }
+
+
 
 }

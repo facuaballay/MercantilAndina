@@ -25,11 +25,11 @@ export class CoberturaDisponibleComponent implements OnInit {
 
   ngOnInit(): void {
   }
-/**
- * 
- * Funcion traer coberturas y setear variable
- * 
- */
+  /**
+   * getCobertura()
+   * trae coberturas desde la api
+   * 
+   */
   getCobertura():void {
     this.coberturaService.getCoberturas().subscribe(res =>{
       
@@ -41,12 +41,12 @@ export class CoberturaDisponibleComponent implements OnInit {
       }
     },(error => Swal.fire('',error,'error') ))
   }
-/***
- * 
- * Funcion para ordenar cobertura
- * 
- * 
- */
+  /**
+   * ordenarCoberturas( param )
+   * @param ordenarPuntaje 
+   * Ordena las coberturas por puntaje
+   * @returns 
+   */
   ordenarCoberturas( ordenarPuntaje: Cobertura[] ): Cobertura[] {
     ordenarPuntaje.sort((a, b) => {
       if (a.puntaje > b.puntaje) return  1;
@@ -55,12 +55,13 @@ export class CoberturaDisponibleComponent implements OnInit {
     })
     return ordenarPuntaje;
   }
-  /**
-   * 
-   * envia
-   * 
-   * 
-   */
+ /**
+  * 
+  * enviarCobertura(cobertura)
+  * @param cobertura 
+  * guarda cobertura en el storage y envia a la siguiente pagina
+  * 
+  */
   enviarCobertura(cobertura:Cobertura):void{
 
     this.coberturasSeleccionada = cobertura;
@@ -69,19 +70,21 @@ export class CoberturaDisponibleComponent implements OnInit {
   }
 
   /*
- * 
- * @param cobertura 
- * Guarda coberturas en el storage.
- */
+  * guardarCobertura(param)
+  * @param cobertura 
+  * Guarda coberturas en el storage.
+  */
   guardarCobertura(cobertura):void{
 
     this.coberturaService.guardarStorageCobertura(cobertura);
   }
-/**
- * 
- *  Funcion ir Atras
- * 
- */
+  /**
+   * 
+   *  goBack()
+   *  va a la pagina de Atras
+   * 
+   * 
+   */
   goBack():void{
     this.route.navigateByUrl('/datos-vehiculos');
 

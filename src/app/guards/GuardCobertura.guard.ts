@@ -11,10 +11,7 @@ export class GuardCobertura implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate() {
-
   
-
-        
         if(this.router.config[2].path === COBERTURAS){
           if (!localStorage.getItem('Vehiculo') ) {
             Swal.fire('','No Rellenaste vehiculo','error')

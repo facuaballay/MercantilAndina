@@ -26,14 +26,24 @@ export class ResumenDatosComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  /**
+   * 
+   * enviarFormularios()
+   * envia los datos del formulario y limpia el storage
+   * 
+   */
   enviarFormularios():void{
 
     Swal.fire('','Enviado Correctamente!','success');
     localStorage.clear();
     this.route.navigate(['/datos-personales']);
   }
-
+  /**
+   * 
+   * goBack()
+   * Va hacia la pagina de atras
+   * 
+   */
   goBack():void{
     this.route.navigateByUrl('/datos-coberturas');
 
