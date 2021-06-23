@@ -25,10 +25,9 @@ El proyecto consiste en 4 formularios que mediante simulan un registro.
 
 
 ## Funcionalidades implementadas
--Validacion de formularios.
--Guardado en localstorage.
--Guards para las rutas.
--Manejo de errores.
+- Validacion de formularios.
+- Guardado en localstorage.
+- Guards para las rutas.
+- Manejo de errores.
 
 
-git arreglo bug rellenar formulario, validacionNacimiento y actualizacion readme
